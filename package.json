@@ -19,7 +19,19 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    {
+      "locator": "https://github.com/vstirbu/ZeroConf",
+      "id": "com.triggertrap.ZeroConf"
+    },
+    {
+      "locator": "https://github.com/jarnoh/cordova-dnssd",
+      "id": "fi.peekpoke.cordova.dnssd"
+    },
+    {
+      "locator": "https://github.com/leecrossley/cordova-plugin-transport-security.git",
+      "id": "cordova-plugin-transport-security"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

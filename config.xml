@@ -17,4 +17,15 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+  <!-- A wildcard can be used to whitelist the entire network,
+     over HTTP and HTTPS.
+     *NOT RECOMMENDED* -->
+  <allow-navigation href="*" />
+
+  <!-- Allow all unrecognized URLs to open installed apps
+       *NOT RECOMMENDED* -->
+  <allow-intent href="*" />
+
+  <!-- Don't block any requests -->
+  <access origin="*" />
 </widget>
