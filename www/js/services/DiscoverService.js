@@ -9,7 +9,7 @@ angular.module('SoundTouchHack.service.DiscoverService', [])
     console.log('Searching using ZeroConf (android)');
 
     // use '_soundtouch._tcp.local.' to find soundtouch, use '_http._tcp.local.' to find all
-    ZeroConf.list('_soundtouch._tcp.local.', 2000,
+    ZeroConf.list('_http._tcp.local.', 2000,
       function (result) {
         console.log('ZeroConf success: ' + JSON.stringify(result));
           if (typeof result !== 'undefined') {
@@ -45,7 +45,7 @@ angular.module('SoundTouchHack.service.DiscoverService', [])
     }
 
     // "_soundtouch._tcp"
-    window.plugins.dnssd.browse("_soundtouch._tcp", "local", function (serviceName, regType, domain, moreComing) {
+    window.plugins.dnssd.browse("_http._tcp", "local", function (serviceName, regType, domain, moreComing) {
       //add new device to list
       factory.devices.push({
         serviceName: serviceName,
