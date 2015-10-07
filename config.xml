@@ -28,4 +28,5 @@
 
   <!-- Don't block any requests -->
   <access origin="*" />
+
 </widget>
