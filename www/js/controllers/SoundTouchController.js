@@ -11,7 +11,8 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
     };*/
 
     $scope.socketData = {
-      volume: 0
+      volume: 0,
+      now_playing: ''
     };
 
     $scope.device = $localStorage.device;
@@ -27,9 +28,9 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
     }
   });
 
-    $scope.$on('$ionicView.leave', function() {
-        SoundtouchWebSocket.stop();
-    });
+  $scope.$on('$ionicView.leave', function() {
+      SoundtouchWebSocket.stop();
+  });
 
   $scope.volumeChanged = function() {
     console.log('Volume has changed: ' + $scope.socketData.volume);
