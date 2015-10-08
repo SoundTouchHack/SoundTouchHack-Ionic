@@ -10,6 +10,10 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
         port: '8090'
     };*/
 
+    $scope.socketData = {
+      volume: 0
+    };
+
     $scope.device = $localStorage.device;
 
     if (typeof $scope.device !== 'undefined') {
@@ -24,13 +28,7 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
 
     $scope.startSocket = function() {
 
-      SoundtouchWebSocket.start($scope.device);
-      SoundtouchWebSocket.registerVolumeUpdates(function(volume){
-        console.log("UPDATE: " + volume);
-        //$scope.apply(function() {
-          $scope.volumeSocket = volume;
-        //})
-      });
+      SoundtouchWebSocket.start($scope);
 
     };
 
