@@ -2,78 +2,109 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
 
   .factory('SoundtouchAPI', function($http) {
 
-    return {
-      /*
-      <nowPlaying deviceID="$MACADDR" source="$SOURCE">
-           <ContentItem source="$SOURCE" location="$STRING" sourceAccount="$STRING" isPresetable="$BOOL">
-             <itemName>$STRING</itemName>
-          </ContentItem>
-          <track>$STRING</track>
-         <artist>$STRING</artist>
-         <album>$STRING</album>
-         <stationName>$STRING</stationName>
-         <art artImageStatus="$ART_STATUS">$URL</art>
-         <playStatus>$PLAY_STATUS</playStatus>
-         <description>$STRING</description>
-         <stationLocation>$STRING</stationLocation>
-      </nowPlaying>
-      */
-      getNowPlaying: function(device, socketData) {
-        $http({
-            method  : 'GET',
-            url     : 'http://' + device.hostName + ':' + device.port+ '/now_playing',
-            timeout : 10000,
-            headers: { "Content-Type": 'application/x-www-form-urlencoded' },
-            transformResponse : function(data) {
-              // string -> XML document object
-              return data;
-            }
-          }).success(function(data, status, headers, config) {
-            console.dir(data);  // XML document object
-            var xmlDoc = $.parseXML(data)
-          socketData.now_playing = $(xmlDoc).find("stationName").text();
-          }).error(function(data, status, headers, config) {
-            console.log('FAILED');
-            console.log(status);
-          });
-      },
+    var factory = {};
 
-      setVolume: function(device, volume) {
-        $http({
-          method  : 'POST',
-          url     : 'http://' + device.hostName + ':' + device.port+ '/volume',
-          timeout : 10000,
-          data    : '<volume>' + volume +'</volume>',
-          headers: { "Content-Type": 'application/x-www-form-urlencoded' },
-          transformResponse : function(data) {
-            // string -> XML document --> json object
-            return xmlToJson($.parseXML(data));
-          }
-        }).success(function(data, status, headers, config) {
-          console.log(data);
-        }).error(function(data, status, headers, config) {
-          alert('Setting volume failed');
-          console.log("Setting volume failed");
-        });
-      },
-      getVolume: function(device, socketData) {
-        $http({
-          method  : 'GET',
-          url     : 'http://' + device.hostName + ':' + device.port+ '/volume',
-          timeout : 10000,
-          headers: { "Content-Type": 'application/x-www-form-urlencoded' },
-          transformResponse : function(data) {
-            // string -> XML document --> json object
-            return xmlToJson($.parseXML(data));
-          }
-        }).success(function(data, status, headers, config) {
-          console.log(data);  // XML document object
-          socketData.volume = data.volume.actualvolume['#text'] * 1;
-          //$scope.xml = data.documentElement.innerHTML;
-        }).error(function(data, status, headers, config) {
-          console.log('FAILED');
-          console.log(data);
-        });
-      }
+    factory.bind = function ($scope) {
+      factory.device = $scope.device;
+      factory.soundTouchData = $scope.soundTouchData;
     };
+
+    //private generic getter
+    factory._get = function(command, success, fail) {
+      if (!angular.isDefined(fail)) {
+        fail = function(data, status, headers, config) {
+          alert('Getting ' + command + ' failed');
+          console.log('Getting ' + command + ' failed');
+        }
+      }
+
+      $http({
+        method  : 'GET',
+        url     : 'http://' + factory.device.hostName + ':' + factory.device.port+ '/' + command,
+        timeout : 10000,
+        headers: { "Content-Type": 'application/x-www-form-urlencoded' },
+        transformResponse : function(data) {
+          // string -> XML document --> json object
+          return xmlToJson($.parseXML(data));
+        }
+      }).success(success).error(fail);
+    };
+
+    //private generic setter
+    factory._set = function(command, dataField, success, fail) {
+
+      if (!angular.isDefined(fail)) {
+        fail = function(data, status, headers, config) {
+          alert('Setting ' + command + ' failed');
+          console.log('Setting ' + command + ' failed');
+        }
+      }
+
+      if (!angular.isDefined(success)) {
+        success = function(data, status, headers, config) {
+          console.log('Setting ' + command + ' successful');
+        }
+      }
+
+      $http({
+        method  : 'POST',
+        url     : 'http://' + factory.device.hostName + ':' + factory.device.port+ '/' + command,
+        timeout : 10000,
+        data    : dataField,
+        headers: { "Content-Type": 'application/x-www-form-urlencoded' },
+        transformResponse : function(data) {
+          // string -> XML document --> json object
+          return xmlToJson($.parseXML(data));
+        }
+      }).success(success).error(fail);
+    };
+
+    /*
+     <nowPlaying deviceID="$MACADDR" source="$SOURCE">
+       <ContentItem source="$SOURCE" location="$STRING" sourceAccount="$STRING" isPresetable="$BOOL">
+          <itemName>$STRING</itemName>
+       </ContentItem>
+       <track>$STRING</track>
+       <artist>$STRING</artist>
+       <album>$STRING</album>
+       <stationName>$STRING</stationName>
+       <art artImageStatus="$ART_STATUS">$URL</art>
+       <playStatus>$PLAY_STATUS</playStatus>
+       <description>$STRING</description>
+       <stationLocation>$STRING</stationLocation>
+     </nowPlaying>
+     */
+    factory.getNowPlaying = function() {
+      factory._get('now_playing', function(data, status, headers, config) {
+        console.log(data.nowPlaying);
+        factory.soundTouchData.nowPlaying = {
+          stationName:  data.nowPlaying.stationName['#text'],
+          artUrl:       data.nowPlaying.art['#text'],
+          track:        data.nowPlaying.track['#text'],
+          artist:       data.nowPlaying.artist['#text'],
+          album:        data.nowPlaying.album['#text'],
+          description:  data.nowPlaying.description['#text'],
+        };
+      });
+    };
+
+    factory.getVolume = function() {
+      factory._get('volume', function(data, status, headers, config) {
+        console.log(data);
+        factory.soundTouchData.volume = data.volume.actualvolume['#text'];
+      });
+    };
+
+    factory.getInfo= function() {
+      factory._get('info', function(data, status, headers, config) {
+        console.log(data);
+        //TODO: add to soundTouchData
+      });
+    };
+
+    factory.setVolume = function(volume) {
+      factory._set('volume', '<volume>' + volume +'</volume>');
+    };
+
+    return factory;
   });

@@ -23,10 +23,15 @@ angular.module('SoundTouchHack.service.SoundTouchWebSocket', ['ngWebSocket'])
         factory.$scope.socketDataDebug = data;
 
         if (angular.isDefined(data.updates)) {
-          if (angular.isDefined(data.updates.volumeUpdated)) {
-            var volume = data.updates.volumeUpdated.volume.actualvolume['#text'];
-            console.log('Volume changed to ' + volume);
-            factory.$scope.socketData.volume = volume;
+          var updates = data.updates;
+
+          if (angular.isDefined(updates.volumeUpdated)) {
+            //This is a volume changed packet
+            var volume = updates.volumeUpdated.volume.actualvolume['#text'];
+            console.log('Volume is changed to ' + volume);
+            factory.$scope.soundTouchData.volume = volume;
+          } else if (false) {
+
           }
         }
       });

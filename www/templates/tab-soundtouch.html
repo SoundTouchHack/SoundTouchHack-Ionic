@@ -4,11 +4,11 @@
       <h5>Selected Device: {{device.serviceName}} {{device.hostName}}:{{device.port}}</h5>
       <div class="item range">
         <i class="icon ion-volume-low"></i>
-        <input type="range" name="volume" ng-model="socketData.volume" ng-change="volumeChanged();">
+        <input type="range" name="volume" ng-model="soundTouchData.volume" ng-change="volumeChanged();">
         <i class="icon ion-volume-high"></i>
       </div>
-      <h5>Volume: {{socketData.volume}}</h5>
-      <h5>Now playing: {{socketData.now_playing}}</h5>
+      <h5>Volume: {{soundTouchData.volume}}</h5>
+      <h5>Now playing: {{soundTouchData.nowPlaying.stationName}}</h5>
     </div>
     <button class="button button-block button-positive" ng-hide="device.serviceName" ng-click="selectDiscoverTab();">Select Device</button>
     <br />

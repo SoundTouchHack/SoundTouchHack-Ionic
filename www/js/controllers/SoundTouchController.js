@@ -10,19 +10,27 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
         port: '8090'
     };*/
 
-    $scope.socketData = {
+    $scope.soundTouchData = {
       volume: 0,
-      now_playing: ''
+      nowPlaying: {
+        stationName:  '',
+        artUrl:       '',
+        track:        '',
+        artist:       '',
+        album:        '',
+        description:  ''
+      }
     };
 
     $scope.device = $localStorage.device;
 
     if (typeof $scope.device !== 'undefined') {
-      SoundtouchAPI.getVolume($scope.device, $scope.socketData);
-      console.log('SoundtouchAPI getVolume: ' + $scope.socketData.volume);
 
-      SoundtouchAPI.getNowPlaying($scope.device, $scope.socketData);
-      console.log('SoundtouchAPI nowPlaying: ' + $scope.socketData.now_playing);
+      SoundtouchAPI.bind($scope);
+
+      SoundtouchAPI.getVolume();
+      SoundtouchAPI.getNowPlaying();
+      SoundtouchAPI.getInfo();
 
       SoundtouchWebSocket.start($scope);
     }
@@ -33,8 +41,8 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
   });
 
   $scope.volumeChanged = function() {
-    console.log('Volume has changed: ' + $scope.socketData.volume);
-    SoundtouchAPI.setVolume($scope.device, $scope.socketData.volume);
+    console.log('Volume has changed: ' + $scope.soundTouchData.volume);
+    SoundtouchAPI.setVolume($scope.soundTouchData.volume);
   };
 
   $scope.selectDiscoverTab = function() {
