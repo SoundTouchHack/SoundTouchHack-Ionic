@@ -4,6 +4,7 @@ angular.module('SoundTouchHack.controller.DiscoveryController', ['ngStorage','So
 
     $scope.$on('$ionicView.enter', function() {
       $scope.device = $localStorage.device;
+      $scope.doRefresh();
     });
 
     $scope.doRefresh = function() {

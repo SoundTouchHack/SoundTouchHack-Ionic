@@ -5,10 +5,6 @@
       on-refresh="doRefresh()">
     </ion-refresher>
 
-    <div ng-show="device">
-      <h5>Selected Device: {{device.serviceName}} {{device.hostName}}:{{device.port}}</h5>
-    </div>
-
     <button class="button button-block button-positive" ng-show="device" ng-click="forgetSelectedDevice();">Forget selected Device</button>
 
     <ul class="list" ng-repeat="device in devices">
