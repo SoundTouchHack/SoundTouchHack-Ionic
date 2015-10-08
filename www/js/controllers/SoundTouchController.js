@@ -17,24 +17,23 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
     $scope.device = $localStorage.device;
 
     if (typeof $scope.device !== 'undefined') {
-      $scope.device.volume = 15;
-      SoundtouchAPI.getVolume($scope.device);
-      console.log('SoundtouchAPI getVolume: ' + $scope.now_playing);
+      SoundtouchAPI.getVolume($scope.device, $scope.socketData);
+      console.log('SoundtouchAPI getVolume: ' + $scope.socketData.volume);
 
-      $scope.device.now_playing = SoundtouchAPI.getNowPlaying($scope.device);
-      console.log('SoundtouchAPI nowPlaying: ' + $scope.now_playing);
+      SoundtouchAPI.getNowPlaying($scope.device, $scope.socketData);
+      console.log('SoundtouchAPI nowPlaying: ' + $scope.socketData.now_playing);
+
+      SoundtouchWebSocket.start($scope);
     }
   });
 
-    $scope.startSocket = function() {
-
-      SoundtouchWebSocket.start($scope);
-
-    };
+    $scope.$on('$ionicView.leave', function() {
+        SoundtouchWebSocket.stop();
+    });
 
   $scope.volumeChanged = function() {
-    console.log('Volume has changed: ' + $scope.device.volume);
-    SoundtouchAPI.setVolume($scope.device);
+    console.log('Volume has changed: ' + $scope.socketData.volume);
+    SoundtouchAPI.setVolume($scope.device, $scope.socketData.volume);
   };
 
   $scope.selectDiscoverTab = function() {

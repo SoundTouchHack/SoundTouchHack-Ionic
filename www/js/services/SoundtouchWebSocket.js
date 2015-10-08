@@ -8,11 +8,16 @@ angular.module('SoundTouchHack.service.SoundTouchWebSocket', ['ngWebSocket'])
 
     factory.start = function($scope) {
       var device = $scope.device;
+
+      if (angular.isDefined(factory.socket)) {
+        factory.socket.close(true);
+      }
+
       factory.$scope = $scope;
       factory.socket = $websocket('ws://' + device.hostName + ":8080", 'gabbo');
 
       factory.socket.onMessage(function(message) {
-        console.log(message.data);
+        //console.log(message.data);
 
         var data = xmlToJson($.parseXML(message.data));
         factory.$scope.socketDataDebug = data;
@@ -25,6 +30,12 @@ angular.module('SoundTouchHack.service.SoundTouchWebSocket', ['ngWebSocket'])
           }
         }
       });
+    };
+
+    factory.stop = function() {
+      if (angular.isDefined(factory.socket)) {
+        factory.socket.close(true);
+      }
     };
 
     return factory;

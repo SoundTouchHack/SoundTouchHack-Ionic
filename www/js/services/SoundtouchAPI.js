@@ -18,7 +18,7 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
          <stationLocation>$STRING</stationLocation>
       </nowPlaying>
       */
-      getNowPlaying: function(device) {
+      getNowPlaying: function(device, socketData) {
         $http({
             method  : 'GET',
             url     : 'http://' + device.hostName + ':' + device.port+ '/now_playing',
@@ -31,19 +31,19 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
           }).success(function(data, status, headers, config) {
             console.dir(data);  // XML document object
             var xmlDoc = $.parseXML(data)
-            device.now_playing = $(xmlDoc).find("stationName").text();
+          socketData.now_playing = $(xmlDoc).find("stationName").text();
           }).error(function(data, status, headers, config) {
             console.log('FAILED');
             console.log(status);
           });
       },
 
-      setVolume: function(device) {
+      setVolume: function(device, volume) {
         $http({
           method  : 'POST',
           url     : 'http://' + device.hostName + ':' + device.port+ '/volume',
           timeout : 10000,
-          data    : '<volume>' + device.volume +'</volume>',
+          data    : '<volume>' + volume +'</volume>',
           headers: { "Content-Type": 'application/x-www-form-urlencoded' },
           transformResponse : function(data) {
             // string -> XML document --> json object
@@ -56,19 +56,19 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
           console.log("Setting volume failed");
         });
       },
-      getVolume: function(device) {
+      getVolume: function(device, socketData) {
         $http({
           method  : 'GET',
           url     : 'http://' + device.hostName + ':' + device.port+ '/volume',
           timeout : 10000,
           headers: { "Content-Type": 'application/x-www-form-urlencoded' },
           transformResponse : function(data) {
-            // string -> XML document object
+            // string -> XML document --> json object
             return xmlToJson($.parseXML(data));
           }
         }).success(function(data, status, headers, config) {
           console.log(data);  // XML document object
-          device.volume = data.volume.actualvolume['#text'] * 1;
+          socketData.volume = data.volume.actualvolume['#text'] * 1;
           //$scope.xml = data.documentElement.innerHTML;
         }).error(function(data, status, headers, config) {
           console.log('FAILED');
