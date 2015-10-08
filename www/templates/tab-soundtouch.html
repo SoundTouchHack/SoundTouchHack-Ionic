@@ -19,21 +19,24 @@
           </div>
           <div class="col">
             <h5>{{soundTouchData.nowPlaying.stationName}}</h5>
+            {{soundTouchData.nowPlaying.album}} -
+            {{soundTouchData.nowPlaying.artist}}<br />
+            {{soundTouchData.nowPlaying.track}}<br />
           </div>
         </div>
 
         <div class="item tabs tabs-stable tabs-icon-only">
           <a class="tab-item" href="#" ng-click="pressKey('PLAY')">
-            <i class="icon ion-arrow-right-b"></i>
+            <i class="fa fa-play"></i>
           </a>
           <a class="tab-item" href="#" ng-click="pressKey('STOP')">
-            <i class="icon ion-arrow-right-b"></i>
+            <i class="fa fa-stop"></i>
           </a>
           <a class="tab-item" href="#" ng-click="pressKey('PREV_TRACK')">
-            <i class="icon ion-reply"></i>
+            <i class="fa fa-backward"></i>
           </a>
           <a class="tab-item" href="#" ng-click="pressKey('NEXT_TRACK')">
-            <i class="icon ion-forward"></i>
+            <i class="fa fa-forward"></i>
           </a>
         </div>
 

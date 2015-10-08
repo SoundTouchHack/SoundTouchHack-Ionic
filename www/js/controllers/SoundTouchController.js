@@ -14,11 +14,11 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
       volume: 0,
       nowPlaying: {
         stationName:  'Radio station',
-        artUrl:       'folder.jpg',
-        track:        '',
-        artist:       '',
-        album:        '',
-        description:  ''
+        artUrl:       'http://www.poulissen.nl/sites/default/files/imagecache/pagina_image/bose-soundtouch.jpg',
+        track:        '<Track>',
+        artist:       '<Artist>',
+        album:        '<Album>',
+        description:  '<Description>'
       }
     };
 
