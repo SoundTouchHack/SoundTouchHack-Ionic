@@ -1,17 +1,68 @@
 <ion-view view-title="Bose Soundtouch App">
   <ion-content>
     <div ng-show="device.serviceName">
-      <h5>Selected Device: {{device.serviceName}} {{device.hostName}}:{{device.port}}</h5>
+      <!--h5>Selected Device: {{device.serviceName}} {{device.hostName}}:{{device.port}}</h5-->
+
+      <div class="list card">
+
+        <div class="item item-avatar">
+          <img src="avatar.jpg">
+          <h2>{{device.serviceName}}</h2>
+          <p>{{device.hostName}}</p>
+        </div>
+
+        <div class="row">
+          <div class="col col-50">
+            <div class="item item-image">
+              <img src="{{soundTouchData.nowPlaying.artUrl}}">
+            </div>
+          </div>
+          <div class="col">
+            <h5>{{soundTouchData.nowPlaying.stationName}}</h5>
+          </div>
+        </div>
+
+        <div class="item tabs tabs-stable tabs-icon-only">
+          <a class="tab-item" href="#" ng-click="pressKey('PLAY')">
+            <i class="icon ion-arrow-right-b"></i>
+          </a>
+          <a class="tab-item" href="#" ng-click="pressKey('STOP')">
+            <i class="icon ion-arrow-right-b"></i>
+          </a>
+          <a class="tab-item" href="#" ng-click="pressKey('PREV_TRACK')">
+            <i class="icon ion-reply"></i>
+          </a>
+          <a class="tab-item" href="#" ng-click="pressKey('NEXT_TRACK')">
+            <i class="icon ion-forward"></i>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="button-bar bar-stable">
+        <a class="button" ng-click="pressKey('PRESET_1')">1</a>
+        <a class="button" ng-click="pressKey('PRESET_2')">2</a>
+        <a class="button" ng-click="pressKey('PRESET_3')">3</a>
+      </div>
+      <div class="button-bar bar-stable">
+        <a class="button" ng-click="pressKey('PRESET_4')">4</a>
+        <a class="button" ng-click="pressKey('PRESET_5')">5</a>
+        <a class="button" ng-click="pressKey('PRESET_6')">6</a>
+      </div>
+
       <div class="item range">
         <i class="icon ion-volume-low"></i>
         <input type="range" name="volume" ng-model="soundTouchData.volume" ng-change="volumeChanged();">
         <i class="icon ion-volume-high"></i>
       </div>
-      <h5>Volume: {{soundTouchData.volume}}</h5>
-      <h5>Now playing: {{soundTouchData.nowPlaying.stationName}}</h5>
     </div>
+
+
     <button class="button button-block button-positive" ng-hide="device.serviceName" ng-click="selectDiscoverTab();">Select Device</button>
-    <br />
-    {{socketDataDebug}}
+
+    <div>
+      {{socketDataDebug}}
+    </div>
+
   </ion-content>
 </ion-view>

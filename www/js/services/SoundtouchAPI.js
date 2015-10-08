@@ -35,8 +35,8 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
 
       if (!angular.isDefined(fail)) {
         fail = function(data, status, headers, config) {
-          alert('Setting ' + command + ' failed');
-          console.log('Setting ' + command + ' failed');
+          alert('Setting ' + command + ' (' + dataField + ') failed');
+          console.log('Setting ' + command + ' (' + dataField + ') failed');
         }
       }
 
@@ -95,6 +95,27 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
       });
     };
 
+    /*
+     <info deviceID="$MACADDR">
+       <name>$STRING</name>
+       <type>$STRING</type>
+       <margeAccountUUID>$STRING</margeAccountUUID>
+       <components>
+         <component>
+           <componentCategory>$STRING</componentCategory>
+           <softwareVersion>$STRING</softwareVersion>
+           <serialNumber>$STRING</serialNumber>
+         </component>
+         ...
+       </components>
+       <margeURL>$URL</margeURL>
+       <networkInfo type="$STRING">
+       <macAddress>$MACADDR</macAddress>
+       <ipAddress>$IPADDR</ipAddress>
+       </networkInfo>
+        ...
+     </info>
+     */
     factory.getInfo= function() {
       factory._get('info', function(data, status, headers, config) {
         console.log(data);
@@ -104,6 +125,18 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
 
     factory.setVolume = function(volume) {
       factory._set('volume', '<volume>' + volume +'</volume>');
+    };
+
+    /*
+    Allowed keys:
+     PLAY, PAUSE, STOP, PREV_TRACK, NEXT_TRACK, THUMBS_UP, THUMBS_DOWN, BOOKMARK, POWER, MUTE, VOLUME_UP, VOLUME_DOWN
+     PRESET_1, PRESET_2, PRESET_3, PRESET_4, PRESET_5, PRESET_6, AUX_INPUT, SHUFFLE_OFF, SHUFFLE_ON, REPEAT_OFF
+     REPEAT_ONE, REPEAT_ALL, PLAY_PAUSE, ADD_FAVORITE, REMOVE_FAVORITE, INVALID_KEY
+     */
+    factory.pressKey = function(key) {
+      factory._set('key', '<key state="press" sender="Gabbo">' + key + '</key>', function() {
+        factory._set('key', '<key state="release" sender="Gabbo">' + key + '</key>');
+      });
     };
 
     return factory;

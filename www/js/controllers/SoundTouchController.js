@@ -13,8 +13,8 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
     $scope.soundTouchData = {
       volume: 0,
       nowPlaying: {
-        stationName:  '',
-        artUrl:       '',
+        stationName:  'Radio station',
+        artUrl:       'folder.jpg',
         track:        '',
         artist:       '',
         album:        '',
@@ -28,9 +28,9 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
 
       SoundtouchAPI.bind($scope);
 
-      SoundtouchAPI.getVolume();
-      SoundtouchAPI.getNowPlaying();
-      SoundtouchAPI.getInfo();
+      //SoundtouchAPI.getVolume();
+      //SoundtouchAPI.getNowPlaying();
+      //SoundtouchAPI.getInfo();
 
       SoundtouchWebSocket.start($scope);
     }
@@ -43,6 +43,10 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
   $scope.volumeChanged = function() {
     console.log('Volume has changed: ' + $scope.soundTouchData.volume);
     SoundtouchAPI.setVolume($scope.soundTouchData.volume);
+  };
+
+  $scope.pressKey = function(key) {
+    SoundtouchAPI.pressKey(key);
   };
 
   $scope.selectDiscoverTab = function() {
