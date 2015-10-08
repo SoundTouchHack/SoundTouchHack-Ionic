@@ -46,15 +46,14 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
           data    : '<volume>' + device.volume +'</volume>',
           headers: { "Content-Type": 'application/x-www-form-urlencoded' },
           transformResponse : function(data) {
-            // string -> XML document object
+            // string -> XML document --> json object
             return xmlToJson($.parseXML(data));
           }
         }).success(function(data, status, headers, config) {
-          console.log(data);  // XML document object
-          //$scope.xml = data.documentElement.innerHTML;
+          console.log(data);
         }).error(function(data, status, headers, config) {
-          console.log('FAILED');
-          console.log(status);
+          alert('Setting volume failed');
+          console.log("Setting volume failed");
         });
       },
       getVolume: function(device) {
