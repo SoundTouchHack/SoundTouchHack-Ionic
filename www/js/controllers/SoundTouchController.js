@@ -13,7 +13,7 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
     $scope.soundTouchData = {
       volume: 0,
       nowPlaying: {
-        stationName:  'Radio station',
+        stationName:  '<Radio station>',
         artUrl:       'http://www.poulissen.nl/sites/default/files/imagecache/pagina_image/bose-soundtouch.jpg',
         track:        '<Track>',
         artist:       '<Artist>',
