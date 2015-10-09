@@ -57,9 +57,7 @@
 
     <button class="button button-block button-positive" ng-hide="device.serviceName" ng-click="selectDiscoverTab();">Select Device</button>
 
-    <div>
-      {{socketDataDebug}}
-    </div>
+    <pre ng-bind="socketDataDebug | json"></pre>
 
   </ion-content>
 </ion-view>
