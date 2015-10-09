@@ -28,9 +28,9 @@ angular.module('SoundTouchHack.controller.SoundTouchController', ['ngStorage','S
 
       SoundtouchAPI.bind($scope);
 
-      //SoundtouchAPI.getVolume();
-      //SoundtouchAPI.getNowPlaying();
-      //SoundtouchAPI.getInfo();
+      SoundtouchAPI.getVolume();
+      SoundtouchAPI.getNowPlaying();
+      SoundtouchAPI.getInfo();
 
       SoundtouchWebSocket.start($scope);
     }
