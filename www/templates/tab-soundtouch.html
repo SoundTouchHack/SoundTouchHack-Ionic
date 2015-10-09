@@ -19,9 +19,14 @@
           </div>
           <div class="col">
             <h5>{{soundTouchData.nowPlaying.stationName}}</h5>
-            {{soundTouchData.nowPlaying.album}} -
-            {{soundTouchData.nowPlaying.artist}}<br />
-            {{soundTouchData.nowPlaying.track}}<br />
+            <span ng-if="{soundTouchData.nowPlaying.source == 'INTERNET_RADIO'}">
+              {{soundTouchData.nowPlaying.stationLocation}}
+            </span>
+            <span ng-if="{soundTouchData.nowPlaying.source != 'INTERNET_RADIO'}">
+              {{soundTouchData.nowPlaying.album}} -
+              {{soundTouchData.nowPlaying.artist}}<br />
+              {{soundTouchData.nowPlaying.track}}<br />
+            </span>
           </div>
         </div>
 

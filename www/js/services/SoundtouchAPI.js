@@ -78,12 +78,14 @@ angular.module('SoundTouchHack.service.SoundTouchAPI', [])
       factory._get('now_playing', function(data, status, headers, config) {
         console.log(data.nowPlaying);
         factory.soundTouchData.nowPlaying = {
+          source:       data.nowPlaying.attributes.source['#text'],
           stationName:  data.nowPlaying.stationName['#text'],
           artUrl:       data.nowPlaying.art['#text'],
           track:        data.nowPlaying.track['#text'],
           artist:       data.nowPlaying.artist['#text'],
           album:        data.nowPlaying.album['#text'],
           description:  data.nowPlaying.description['#text'],
+          stationLocation:  data.nowPlaying.stationLocation['#text'],
         };
       });
     };
