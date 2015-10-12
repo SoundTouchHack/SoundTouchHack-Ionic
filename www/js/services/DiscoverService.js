@@ -39,9 +39,14 @@ angular.module('SoundTouchHack.service.DiscoverService', [])
   function getDevicesForIOS(devices, error) {
     console.log('Searching using Bonjour (IOS)');
 
-    if (window.plugins == undefined) {
-      error("Clould not find Bonjour DNS Library");
-      return
+    if (window.cordova == undefined) {
+      error("Cloud not load cordova");
+      return;
+    }
+
+    if (window.cordova.plugins == undefined) {
+      error("Cloud not find Bonjour DNS Library");
+      return;
     }
 
     // "_soundtouch._tcp"
