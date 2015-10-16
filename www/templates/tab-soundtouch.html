@@ -1,4 +1,4 @@
-<ion-view view-title="Bose Soundtouch App">
+<ion-view view-title="Bose SoundTouchHack">
   <ion-content>
     <div ng-show="device.serviceName">
       <!--h5>Selected Device: {{device.serviceName}} {{device.hostName}}:{{device.port}}</h5-->
@@ -6,7 +6,7 @@
       <div class="list card">
 
         <div class="item item-avatar">
-          <img src="https://www.hificomponents.de/media/image/001_SoundTouch_30_Series_II_white_RGB.jpg">
+          <img src="img/soundtouch.jpg">
           <h2>{{device.serviceName}}</h2>
           <p>{{device.hostName}}</p>
         </div>
@@ -19,9 +19,14 @@
           </div>
           <div class="col">
             <h5>{{soundTouchData.nowPlaying.stationName}}</h5>
-            {{soundTouchData.nowPlaying.album}} -
-            {{soundTouchData.nowPlaying.artist}}<br />
-            {{soundTouchData.nowPlaying.track}}<br />
+            <span ng-if="{soundTouchData.nowPlaying.source == 'INTERNET_RADIO'}">
+              {{soundTouchData.nowPlaying.stationLocation}}
+            </span>
+            <span ng-if="{soundTouchData.nowPlaying.source != 'INTERNET_RADIO'}">
+              {{soundTouchData.nowPlaying.album}} -
+              {{soundTouchData.nowPlaying.artist}}<br />
+              {{soundTouchData.nowPlaying.track}}<br />
+            </span>
           </div>
         </div>
 
@@ -42,6 +47,16 @@
 
       </div>
 
+      <div class="button-bar padding-right padding-left padding-bottom">
+        <a class="button" ng-click="pressKey('PRESET_1')">1</a>
+        <a class="button" ng-click="pressKey('PRESET_2')">2</a>
+        <a class="button" ng-click="pressKey('PRESET_3')">3</a>
+        <a class="button" ng-click="pressKey('PRESET_4')">4</a>
+        <a class="button" ng-click="pressKey('PRESET_5')">5</a>
+        <a class="button" ng-click="pressKey('PRESET_6')">6</a>
+      </div>
+
+
       <div class="item range">
         <i class="icon ion-volume-low"></i>
         <input type="range" name="volume" ng-model="soundTouchData.volume" ng-change="volumeChanged();">
@@ -52,7 +67,7 @@
 
     <button class="button button-block button-positive" ng-hide="device.serviceName" ng-click="selectDiscoverTab();">Select Device</button>
 
-    <pre ng-bind="socketDataDebug | json"></pre>
+    <pre ng-show="debug" ng-bind="socketDataDebug | json"></pre>
 
   </ion-content>
 </ion-view>

@@ -2,6 +2,8 @@ angular.module('SoundTouchHack.controller.DiscoveryController', ['ngStorage','So
 
   .controller('DiscoveryController', function($scope, $localStorage, $window, DiscoverService){
 
+    $scope.debug = false; //set to true to see incoming packets
+
     $scope.$on('$ionicView.enter', function() {
       $scope.device = $localStorage.device;
       $scope.doRefresh();

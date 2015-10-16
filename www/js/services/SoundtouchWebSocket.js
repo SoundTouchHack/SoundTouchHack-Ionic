@@ -1,6 +1,6 @@
-angular.module('SoundTouchHack.service.SoundTouchWebSocket', ['ngWebSocket'])
+angular.module('SoundTouchHack.service.SoundTouchWebSocket', ['ngWebSocket', 'SoundTouchHack.service.SoundTouchAPI'])
 
-  .factory('SoundtouchWebSocket', function($websocket) {
+  .factory('SoundtouchWebSocket', function($websocket, SoundtouchAPI) {
 
     var factory ={};
     factory.socket = undefined;
@@ -30,8 +30,30 @@ angular.module('SoundTouchHack.service.SoundTouchWebSocket', ['ngWebSocket'])
             var volume = updates.volumeUpdated.volume.actualvolume['#text'];
             console.log('Volume is changed to ' + volume);
             factory.$scope.soundTouchData.volume = volume;
-          } else if (false) {
-
+          } else if (angular.isDefined(updates.nowSelectionUpdated)) {
+            // now selection updates is triggered when a station will be changed, but at this moment nothing is playing ...
+            factory.$scope.soundTouchData.nowPlaying = {
+              source:           '',
+              stationName:      '',
+              artUrl:           '',
+              track:            '',
+              artist:           '',
+              album:            '',
+              stationLocation:  '',
+            };
+          } else if (angular.isDefined(updates.nowPlayingUpdated)) {
+            var nowPlaying = updates.nowPlayingUpdated.nowPlaying;
+            factory.$scope.soundTouchData.nowPlaying = {
+              source:           nowPlaying.attributes.source['#text'],
+              stationName:      nowPlaying.stationName['#text'],
+              artUrl:           nowPlaying.art['#text'],
+              track:            nowPlaying.track['#text'],
+              artist:           nowPlaying.artist['#text'],
+              album:            nowPlaying.album['#text'],
+              stationLocation:  nowPlaying.stationLocation['#text'],
+            };
+          } else {
+            console.log(updates);
           }
         }
       });
